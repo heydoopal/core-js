@@ -85,3 +85,32 @@ const prevoius = prev('.second'); // .first
 // second
 
 // first의 다음 요소 선택 => .second
+
+
+
+let second = document.querySelector('.second');
+
+function prev(node) {
+
+  // 위에서 second를 미리 선언 및 할당해서
+  // html 문서의 second 클래스를 가진 요소를 이미 가지고있는 경우
+  // 그 second 변수를 매개변수(node)로 받음
+  // 그래서 node의 type이 string인지('.second') 아닌지(위에서 할당해 둔 second) 확인하고
+  // string 형으로 들어왔을 때에만 if문 안의 DOM요소 선택(querySelector)을 진행해줌.
+  // 위에서 할당해 둔 second 변수를 매개변수로 전달받으면 이미 DOM요소가 선택되어있어서 다시 안하는 것
+  if (typeof node === 'string') {
+
+    // 아래에서 prev('.second') 이렇게 함수를 호출하면
+    // let node = document.querySelector('.second');
+    // 처럼 됨
+    node = document.querySelector(node);
+  }
+
+  do {
+    node = node.previousSibling;
+  } while (node.nodeType !== 1);
+
+  return node;
+}
+
+let first = prev(second);

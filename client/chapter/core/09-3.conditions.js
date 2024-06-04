@@ -78,27 +78,22 @@ console.clear();
 
 function weekend() {
   // getDay 실행해서 요일을 받아옴  일 ~ 월
-  const today = getDay(getRandom(7));
-
+  // const today = getDay(getRandom(7));
   // if(today.includes('토') || today.includes('일')){
   //   return '주말입니다!';
   // }else{
   //   return '평일입니다.'
   // }
-
   // 해당 요일을 가지고 토,일 => 주말입니다.
-
   // if.. switch.. 삼항식
-
   // 평일입니다.
-
   // const day = today.includes('토') ? '토요일' : today.includes('일') ? '일요일' : '평일'
   // return day;
-  return today.includes('토')
-    ? '토요일'
-    : today.includes('일')
-      ? '일요일'
-      : '평일';
+  // return today.includes('토')
+  //   ? '토요일'
+  //   : today.includes('일')
+  //     ? '일요일'
+  //     : '평일';
 }
 
 const day = weekend();
