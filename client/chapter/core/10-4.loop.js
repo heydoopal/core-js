@@ -22,10 +22,13 @@ const javaScript = {
 // 객체 자신의 속성인지 확인하는 방법
 // - "자신(own)의 속성(property)을 가지고(has)있는지 확인 방법"이 덮어쓰여질 수 있는 위험에 대처하는 안전한 방법은?
 
+
+// hasOwnProperty 쓰면 직접 접근하지말라고!(재정의 될 수 있기 때문에) eslint가 경고함
 // console.log( javaScript.hasOwnProperty('nickName') );
 
-// 메서드 빌려쓰기
+// 해결방법 >>>> 메서드 빌려쓰기!
 // console.log( Object.prototype.hasOwnProperty.call(javaScript,'nickName') );
+// 새로운 객체를 만드는것도 방법
 // console.log( {}.hasOwnProperty.call(javaScript,'nickName') );
 
 // function method
@@ -34,7 +37,7 @@ const javaScript = {
 // - 객체 자신의 속성만 순환하려면?
 // - 배열 객체 순환에 사용할 경우?
 
-// enumerable : 열거 가능한
+// enumerable : 열거 가능한 
 
 for (let key in javaScript) {
   if (Object.prototype.hasOwnProperty.call(javaScript, key)) {
@@ -58,8 +61,10 @@ const obj = {};
 
 obj.nickName = 'tiger';
 
+
 // Object.defineProperty(obj,'age',{
-//   value:30,
+  //   value:30,
+// 열거 대상이 되냐 안되냐
 //   enumerable: true,
 //   writable: false,
 //   configurable:true
