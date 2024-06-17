@@ -58,3 +58,9 @@ for (let i = 0; i < l; i++) {
 
 // for(let i = l, subject; subject = frontEndDev[--i];){
 //   console.log(subject);
+
+for (let i = 2; i <= n; i++) {
+  let n = [];
+  if (i % 1 === 0 && n % i === 0) n.push(i);
+  return n;
+}
