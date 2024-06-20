@@ -32,4 +32,8 @@ aList.forEach((a)=>{
 })
 
 
+  // a.addEventListener('mouseleave',()=>{
+  //   depthList.forEach(h)
+  // })
+
 header.addEventListener('mouseleave' , () => depthList.forEach(h))
