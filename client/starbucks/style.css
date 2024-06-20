@@ -1,3 +1,6 @@
+
+
+
 /*
 *  html5resetcss
 */
@@ -20,7 +23,8 @@ input,select{vertical-align:middle}
 
 
 
-/* nomarl version */
+
+
 #header{
   display:flex;
   justify-content: space-between;
@@ -31,10 +35,11 @@ input,select{vertical-align:middle}
 
   nav > ul {
     display: flex;
-    gap:2rem;
+    /* gap:2rem; */
 
     li > a{
       border: 1px solid black;
+      padding: 1rem 2rem;
 
       .depth{
         position: absolute;
@@ -47,7 +52,7 @@ input,select{vertical-align:middle}
         justify-content: center;
         align-items: center;
         overflow: hidden;
-        transition:height 0.3s;
+        /* transition:height 0.3s; */
       }
     }
   }
