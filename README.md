@@ -2,8 +2,8 @@
 
 ---
 
-### DOM 학습 저장소
+### 계산기 만들기 토이프로젝트
 
 ---
 
-자바스크립트의 DOM(document object model) API(application programming interface)에 대해 학습합니다.
+학습한 내용을 이해하고 응용하기 위한 토이 프로젝트를 실습합니다.
