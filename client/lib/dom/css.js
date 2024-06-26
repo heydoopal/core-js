@@ -1,5 +1,5 @@
 import { getNode } from "./getNode.js";
-import { isString, isArray, isObject } from "../utils/type.js";
+import { isString, isObject, isArray } from "../utils/type.js";
 
 
 /* -------------------------------------------- */
@@ -36,8 +36,6 @@ export function addClass(node,...className){
   })
     
 }
-
-
 
 export function removeClass(node,className){
 
