@@ -13,7 +13,10 @@ const user = {
   gender: 'female',
 };
 
-// 객체 합성
+
+/* -------------------------------------------- */
+/*               xhr callback 방식               */
+/* -------------------------------------------- */
 
 function xhr({
   method = 'GET',
@@ -22,17 +25,24 @@ function xhr({
   성공 = null,
   실패 = null,
   headers = {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-  },
+    'Content-Type':'application/json',
+    'Access-Control-Allow-Origin':'*'
+  }
 }) {
+
   const xhr = new XMLHttpRequest();
 
   xhr.open(method, url);
 
-  Object.entries(headers).forEach(([key, value]) => {
-    xhr.setRequestHeader(key, value);
-  });
+  Object.entries(headers).forEach(([key,value])=>{
+    xhr.setRequestHeader(key,value)
+  })
+
+  // enumerable => 열거 가능한 => for .. of / for .. in
+  // iterable => 순환 가능한 => for .. of
+  // immutable => 불변의
+
+
 
   xhr.addEventListener('readystatechange', () => {
     const { readyState, status, response } = xhr;
@@ -49,6 +59,8 @@ function xhr({
   });
 
   xhr.send(JSON.stringify(body));
+
+  
 }
 
 // 1. 무조건 매개변수 순서에 맞게 작성 ✅
@@ -62,59 +74,82 @@ function xhr({
 //   url: ENDPOINT,
 // });
 
-xhr.get = (url, 성공, 실패) => {
-  xhr({ url, 성공, 실패 });
-};
 
-xhr.post = (url, body, 성공, 실패) => {
-  xhr({
-    method: 'POST',
+
+xhr.get = (url,성공,실패) =>{
+  xhr({ url, 성공, 실패 })
+}
+xhr.post = (url,body,성공,실패) =>{
+  xhr({ 
+    method:'POST',
     body,
-    url,
-    성공,
-    실패,
-  });
-};
-
-xhr.put = (url, body, 성공, 실패) => {
-  xhr({
-    method: 'PUT',
+    url, 
+    성공, 
+    실패
+    }
+  )
+}
+xhr.put = (url,body,성공,실패) =>{
+  xhr({ 
+    method:'PUT',
     body,
-    url,
-    성공,
-    실패,
-  });
-};
-
-xhr.delete = (url, 성공, 실패) => {
-  xhr({
-    method: 'DELETE',
-    url,
-    성공,
-    실패,
-  });
-};
-
-// xhr.post(
-//   ENDPOINT,
-//   user,
-//   (data) => console.log(data),
-//   (err) => console.log(err)
-// );
-
-// 자바스크립트의 함수는 객체다...
+    url, 
+    성공, 
+    실패
+    }
+  )
+}
+xhr.delete = (url,성공,실패) =>{
+  xhr({ 
+    method:'DELETE',
+    url, 
+    성공, 
+    실패
+    }
+  )
+}
 
 
-/* -------------------------------------------------------------------------- */
-/*                               xhr Promise 방식                               */
-/* -------------------------------------------------------------------------- */
 
 
-function xhrPromise(method,url,body){
+
+/* -------------------------------------------- */
+/*               xhr Promise 방식               */
+/* -------------------------------------------- */
+
+
+const defaultOptions = {
+  method:'GET',
+  url: '',
+  body: null,
+  errorMessage:'서버와의 통신이 원활하지 않습니다.',
+  headers:{
+    'Content-Type':'application/json',
+    'Access-Control-Allow-Origin': '*'
+  }
+}
+
+
+export function xhrPromise(options){
+
+  const {method, url, body, headers, errorMessage} = {
+    ...defaultOptions,
+    ...options,
+    headers:{
+      ...defaultOptions.headers,
+      ...options.headers
+    }
+  }
+
+  // const {method,url,body,headers,errorMessage} = config;
 
   const xhr = new XMLHttpRequest();
-  
+
   xhr.open(method,url);
+
+  Object.entries(headers).forEach(([key,value])=>{
+    xhr.setRequestHeader(key,value);
+  })
 
   xhr.send(JSON.stringify(body));
 
@@ -123,23 +158,21 @@ function xhrPromise(method,url,body){
     xhr.addEventListener('readystatechange',()=>{
       if(xhr.readyState === 4){
         if(xhr.status >= 200 && xhr.status < 400){
-          resolve(JSON.parse(xhr.response))
-          // 성공
+          resolve(JSON.parse(xhr.response));
         }
         else{
-          reject({message: '알 수 없는 오류 ㅠ'})
-          // 실패
+          reject({message:errorMessage});
         }
       }
     })
   })
 }
 
+// 프로미스 객체를 내뱉냐.....함수는 항상 내가 뭘 반환하는지 생각하자..
+xhrPromise.get = (url) => xhrPromise({ url })
+xhrPromise.post = (url,body) => xhrPromise({ url, body, method:'POST' })
+xhrPromise.put = (url,body) => xhrPromise({ url, body, method:'PUT' })
+xhrPromise.delete = url => xhrPromise({ url, method:'DELETE' })
 
-
-
-
-xhrPromise('GET',ENDPOINT,{name:'tiger'})
-.then((res)=>{
-  console.log(res)
-})
+xhrPromise.get(ENDPOINT)
+.then()

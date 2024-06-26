@@ -1,82 +1,76 @@
-import {getNode} from "../dom/getNode.js";
+import { getNode } from '../dom/getNode.js';
+import { isNumber, isObject } from './type.js'
 
-
-function delay(callback, timeout = 1000){
+function delay(callback, timeout = 1000) {
   setTimeout(callback, timeout);
 }
 
-const first = getNode('.first')
-const second = getNode('.second')
+const first = getNode('.first');
+const second = getNode('.second');
 
-
-
-// delay(()=> {
-//   first.style.top = '-100px'
-//   second.style.top = '100px'
-//   delay(()=> {
-//     first.style.transform = 'rotate(360deg)'
-//     second.style.transform = 'rotate(-360deg)'
-//     delay(()=> {
-//       first.style.top = '0px'
-//       second.style.top = '0px'
+// delay(()=>{
+//   first.style.top = '-100px';
+//   second.style.top = '100px';
+//   delay(()=>{
+//     first.style.transform = 'rotate(360deg)';
+//     second.style.transform = 'rotate(-360deg)';
+//     delay(()=>{
+//       first.style.top = '0px';
+//       second.style.top = '0px';
 //     })
 //   })
-// })
+//  })
 
+const shouldRejected = true;
 
-const shouldRejected = false;
+// const p = new Promise((성공, 실패) => {
+//   if (!shouldRejected) {
+//     성공('성공!!');
+//   } else {
+//     실패('실패!');
+//   }
+// });
 
-const p = new Promise((성공,실패)=>{
-  if(!shouldRejected){
+// 객체 합성
 
-    성공('성공!!');
-
-  }else{
-
-    실패('실패!');
-  }
-});
-
-
-
-function delayP(timeout = 1000){
-  
-  return new Promise((resolve, reject)=> {
-    
-    setTimeout(()=>{
-      if(!shouldRejected) resolve('성공!')
-      else reject('실패')
-    }, timeout)
-  });
-
+const defaultOptions = {
+  shouldRejected:false,
+  data:'성공',
+  errorMessage:'알 수 없는 오류',
+  timeout:1000
 }
 
-// console.log(delayP())  // <Promise>
-// delayP().PromiseState 나 delayP().PromiseResult 이렇게 프로퍼티 값 못가져옴
 
-// 요걸 then으로 가져올 수 있음!
-delayP()
-  .then((res) => {
-    console.log(res);
-    first.style.top = '-100px';
-    second.style.top = '100px';
 
-    return delayP();
-  })
+// const config = Object.assign({},defaultOptions);
+// const config = {...defaultOptions};
 
-  .then((res) => {
-    console.log(res);
-    first.style.transform = 'rotate(360deg)';
-    second.style.transform = 'rotate(-360deg)';
 
-    return delayP();
-  })
-  .then((res) => {
-    first.style.top = '0px';
-    second.style.top = '0px';
-    console.log(res);
+function delayP(options) {
+
+  let config = {...defaultOptions}
+
+  if(isNumber(options)){
+    config.timeout = options
+  }
+  
+  if(isObject(options)){
+    config = {...defaultOptions,...options}
+    // Object.assign(config,options)
+  }
+  
+
+  const {shouldRejected,data,errorMessage,timeout} = config;
+
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (!shouldRejected) {
+        resolve(data);
+      } else {
+        reject({message:errorMessage});
+      }
+    }, timeout);
   });
+}
 
-delay(()=>{
-  console.log('나도성공!')
-})
+delayP(5000)
