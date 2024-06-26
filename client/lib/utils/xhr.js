@@ -95,11 +95,51 @@ xhr.delete = (url, 성공, 실패) => {
   });
 };
 
-xhr.post(
-  ENDPOINT,
-  user,
-  (data) => console.log(data),
-  (err) => console.log(err)
-);
+// xhr.post(
+//   ENDPOINT,
+//   user,
+//   (data) => console.log(data),
+//   (err) => console.log(err)
+// );
 
 // 자바스크립트의 함수는 객체다...
+
+
+/* -------------------------------------------------------------------------- */
+/*                               xhr Promise 방식                               */
+/* -------------------------------------------------------------------------- */
+
+
+function xhrPromise(method,url,body){
+
+  const xhr = new XMLHttpRequest();
+  
+  xhr.open(method,url);
+
+  xhr.send(JSON.stringify(body));
+
+  return new Promise((resolve, reject) => {
+    
+    xhr.addEventListener('readystatechange',()=>{
+      if(xhr.readyState === 4){
+        if(xhr.status >= 200 && xhr.status < 400){
+          resolve(JSON.parse(xhr.response))
+          // 성공
+        }
+        else{
+          reject({message: '알 수 없는 오류 ㅠ'})
+          // 실패
+        }
+      }
+    })
+  })
+}
+
+
+
+
+
+xhrPromise('GET',ENDPOINT,{name:'tiger'})
+.then((res)=>{
+  console.log(res)
+})
