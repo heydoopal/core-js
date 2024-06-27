@@ -48,7 +48,7 @@ const defaultOptions = {
 // const config = {...defaultOptions};
 
 
-function delayP(options) {
+export function delayP(options) {
 
   let config = {...defaultOptions}
 
@@ -118,7 +118,7 @@ function d(){
     // p.then((res)=>{
     //   console.log(res);
     // })
-  
+
     const result = await p ;
   
     console.log(result);
@@ -168,4 +168,4 @@ async function getData(){
 
 }
 
-getData()
+// getData()

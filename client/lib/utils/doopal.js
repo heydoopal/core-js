@@ -1,14 +1,31 @@
 const ENDPOINT = 'https://jsonplaceholder.typicode.com/users'
 
+
+const defaultOptions = {
+  method:'GET',
+  body:null,
+  headers:{
+    'Content-Type':'application/json',
+    'Access-Control-Allow-Origin':'*'
+  }
+}
+
+
 // fetch => promise
 
-const doopal = async () => {
+export const doopal = async (options) => {
 
-  const response = await fetch(ENDPOINT)
-  // console.log(response);      // Response 객체
-  // console.log(response.ok);   // true (HTTP 상태 코드가 200~299 일 때)
+  const {url, ...restOptions} = {
+    ...defaultOptions,
+    ...options,
+    headers:{
+      ...defaultOptions.headers,
+      ...options.headers
+    }
+  }
+  
 
-  // let data;
+  const response = await fetch(url,restOptions);
 
   if(response.ok){
     response.data = await response.json();
@@ -16,9 +33,55 @@ const doopal = async () => {
     return response;
 }
 
-const result = await doopal()
-console.log(result.data)
-// console.log(await doopal())
+// const result = await doopal({url:ENDPOINT})
+// console.log(result)
+
+
+
+doopal.get = (url, options) => {
+  return doopal({
+    url,
+    ...options
+  })
+}
+
+doopal.post = (url, body, options) => {
+  return doopal({
+    method:'POST',
+    url,
+    ...options,
+    body:JSON.stringify(body)
+  })
+}
+
+doopal.delete = (url, options) => {
+  return doopal({
+    method:'DELETE',
+    url,
+    ...options
+  })
+}
+
+doopal.put = (url, body, options) => {
+  return doopal({
+    method:'PUT',
+    url,
+    ...options,
+    body:JSON.stringify(body)
+  })
+}
+
+doopal.patch = (url, body, options) => {
+  return doopal({
+    method:'PATCH',
+    url,
+    ...options,
+    body:JSON.stringify(body)
+  })
+}
+
+
+
 
 
 // IIAFE
