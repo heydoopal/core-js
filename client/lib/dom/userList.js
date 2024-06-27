@@ -15,7 +15,7 @@ function createUserCard({
     <h3 class="user-name">${name}</h3>
     <div class="user-resource-info">
       <div>
-        <a class="user-email" href="mailto:tiger@euid.dev">tiger@euid.dev</a>
+        <a class="user-email" href="mailto:${email}">${email}</a>
       </div>
       <div>
         <a class="user-website" href="${website}" target="_blank" rel="noopener noreferer">${website}</a>
